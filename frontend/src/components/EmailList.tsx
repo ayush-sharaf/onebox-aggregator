@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from 'react';
 import { Search, Filter, Mail, Clock, User, Tag, Sparkles, ChevronDown } from 'lucide-react';
 import type { Email } from '../services/email.service';

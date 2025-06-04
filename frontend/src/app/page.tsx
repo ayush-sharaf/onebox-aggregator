@@ -1,6 +1,7 @@
+'use client'
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import EmailList from './components/EmailList';
+import EmailList from '../components/EmailList';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
