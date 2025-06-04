@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - IMAP1_HOST=${IMAP1_HOST}
+      - IMAP1_PORT=${IMAP1_PORT}
+      - IMAP1_USER=${IMAP1_USER}
+      - IMAP1_PASSWORD=${IMAP1_PASSWORD}
+      - IMAP1_TLS=${IMAP1_TLS}
+      - IMAP2_HOST=${IMAP2_HOST}
+      - IMAP2_PORT=${IMAP2_PORT}
+      - IMAP2_USER=${IMAP2_USER}
+      - IMAP2_PASSWORD=${IMAP2_PASSWORD}
+      - IMAP2_TLS=${IMAP2_TLS}
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - WEBHOOK_SITE_URL=${WEBHOOK_SITE_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:3000/api
+    depends_on:
+      - backend
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+volumes:
+  esdata:
+    driver: local
