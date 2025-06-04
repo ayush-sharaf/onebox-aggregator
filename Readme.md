@@ -80,19 +80,26 @@ npm run dev
 ### Backend (.env)
 
 ```ini
-# IMAP Configuration
-IMAP1_HOST=imap.example.com
-IMAP1_USER=your@email.com
-IMAP1_PASSWORD=yourpassword
+IMAP1_USER=your_mail1
+IMAP1_PASSWORD=pass1
+IMAP1_HOST=imap_host1
+IMAP1_PORT=imap_port1
+IMAP1_TLS=true
 
-# Elasticsearch
-ELASTICSEARCH_HOST=http://elasticsearch:9200
+IMAP2_USER=your_mail2
+IMAP2_PASSWORD=pass2
+IMAP2_HOST=imap_host2
+IMAP2_PORT=imap_port2
+IMAP2_TLS=true
 
-# AI Services
-GEMINI_API_KEY=your-google-api-key
+ELASTICSEARCH_HOST=http://localhost:9200
+SLACK_WEBHOOK_URL=slack webhook url
+WEBHOOK_SITE_URL=webhook site url
 
-# ChromaDB
-CHROMA_DB_URL=http://chromadb:8000
+GEMINI_API_KEY=gemini_api_key
+
+CHROMA_SERVER_HOST=chroma
+CHROMA_SERVER_HTTP_PORT=8000
 ```
 
 ## API Endpoints
