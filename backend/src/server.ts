@@ -16,6 +16,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('Welcome to the Email Search API');
+});
 app.get('/api/emails', searchEmails);
 app.post('/api/emails/:messageId/suggest-reply', getSuggestedReply);
 
