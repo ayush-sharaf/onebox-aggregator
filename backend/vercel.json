@@ -1,14 +1,23 @@
 {
-    "builds": [
-        {
-            "src": "./src/server.ts",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "./src/server.ts"
-        }
-    ]
+    "version": 2,
+  "builds": [
+    {
+      "src": "backend/src/server.ts",
+      "use": "@vercel/node",
+      "config": { 
+        "maxLambdaSize": "50mb",
+        "includeFiles": [
+          "backend/config/**",
+          "backend/models/**",
+          "backend/services/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/src/server.ts"
+    }
+  ]
 }
