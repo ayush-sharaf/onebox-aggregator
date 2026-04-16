@@ -1,18 +1,21 @@
+# AI-Powered Onebox Aggregator
 
-# Email Onebox Aggregator
+A high-performance email intelligence engine designed to aggregate and process real-time IMAP streams with AI-driven categorization and hybrid search capabilities.
 
-A feature-rich email management system with AI-powered categorization and response suggestions.
+## 🚀 Overview
 
-## Features
+The Onebox Aggregator is a sophisticated backend industrial engine that synchronizes multiple IMAP streams into a unified processing pipeline. It combines traditional full-text search with modern vector-based semantic search to provide an unparalleled email retrieval experience.
 
-- 📨 **Real-time Email Sync** - IMAP IDLE mode for instant updates
-- 🔍 **Advanced Search** - Elasticsearch-powered email search
-- 🤖 **AI Categorization** - Automatic email labeling
-- 💬 **Smart Replies** - RAG-powered response suggestions
-- 🔔 **Notifications** - Slack/webhook integrations
-- 🖥️ **Dashboard** - Clean UI for email management
+## 🛠 Tech Stack
 
-## Architecture
+- **Runtime**: Node.js
+- **Search Engine**: Elasticsearch (Full-text & Structured Search)
+- **Vector Database**: ChromaDB (Semantic Vector Search)
+- **Intelligence**: Google Gemini AI (RAG, Thread Summarization, Auto-categorization)
+- **Email Protocol**: IMAP with IDLE support for real-time streaming
+- **Infrastructure**: Docker & Docker Compose
+
+## 🏗 System Architecture
 
 ```mermaid
 graph TD
@@ -26,110 +29,54 @@ graph TD
     F --> B
 ```
 
-## Tech Stack
+## ✨ Key Features
 
-- **Backend**: Node.js, TypeScript, Express
-- **Database**: Elasticsearch (email storage), ChromaDB (vector store)
-- **AI**: Google Gemini 1.5 Flash
-- **Frontend**: React, Material-UI
-- **Infra**: Docker, Docker Compose
+- **Real-time Streaming**: Utilizes IMAP IDLE to listen for new incoming emails with sub-second latency.
+- **Hybrid Search Pipeline**:
+  - **Elasticsearch**: Handles complex filtering, date ranges, and exact-match queries.
+  - **ChromaDB**: Powering semantic search to find emails based on meaning rather than just keywords.
+- **AI-Driven Intelligence**:
+  - **RAG (Retrieval-Augmented Generation)**: Answers queries based on actual email context using Gemini Pro.
+  - **Automated Thread Recovery**: Intelligently groups fragmented messages into cohesive conversations.
+  - **Smart Replies**: Suggests contextually relevant responses based on thread history.
+- **Microservices Ready**: Architected for scalability with Dockerized components.
 
-## Setup Instructions
+## 📦 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- Docker Engine
-- Google Cloud API key
-- IMAP-enabled email accounts
+- Docker and Docker Compose
+- Node.js (v18+)
+- Google Gemini API Key
 
-### 1. Backend Setup
+### Installation
 
-```bash
-cd backend
-cp .env.example .env
-# Edit .env with your credentials
-npm install
-npm run build
-npm start
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ayush-sharaf/onebox-aggregator.git
+   cd onebox-aggregator
+   ```
 
-### 2. Database Services
+2. Configure environment variables:
+   Create a `.env` file in the root directory:
+   ```env
+   GEMINI_API_KEY=your_key_here
+   ELASTICSEARCH_URL=http://localhost:9200
+   CHROMADB_URL=http://localhost:8000
+   ```
 
-```bash
-docker-compose up -d elasticsearch chromadb
-```
+3. Spin up the infrastructure:
+   ```bash
+   docker-compose up -d
+   ```
 
-### 3. Frontend Setup
+4. Install dependencies and start the backend:
+   ```bash
+   cd backend
+   npm install
+   npm start
+   ```
 
-```bash
-cd frontend
-cp .env.example .env
-npm install
-npm run dev
-```
+## 🛡 License
 
-### 4. Initial Configuration
-
-1. Access Elasticsearch at `http://localhost:9200`
-2. ChromaDB dashboard at `http://localhost:8000`
-3. Frontend at `http://localhost:5173`
-
-## Environment Variables
-
-### Backend (.env)
-
-```ini
-IMAP1_USER=your_mail1
-IMAP1_PASSWORD=pass1
-IMAP1_HOST=imap_host1
-IMAP1_PORT=imap_port1
-IMAP1_TLS=true
-
-IMAP2_USER=your_mail2
-IMAP2_PASSWORD=pass2
-IMAP2_HOST=imap_host2
-IMAP2_PORT=imap_port2
-IMAP2_TLS=true
-
-ELASTICSEARCH_HOST=http://localhost:9200
-SLACK_WEBHOOK_URL=slack webhook url
-WEBHOOK_SITE_URL=webhook site url
-
-GEMINI_API_KEY=gemini_api_key
-
-CHROMA_SERVER_HOST=chroma
-CHROMA_SERVER_HTTP_PORT=8000
-```
-
-## API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/emails` | GET | Get all emails |
-| `/api/emails/search` | GET | Search emails |
-| `/api/emails/:id/suggest-reply` | POST | Get AI reply suggestion |
-
-## Deployment
-
-Production deployment with Docker:
-
-```bash
-docker-compose -f docker-compose.prod.yml up --build -d
-```
-
-## Troubleshooting
-
-**Q: IMAP connection fails**
-```bash
-# Test IMAP connection manually
-openssl s_client -connect imap.example.com:993 -crlf
-```
-
-**Q: ChromaDB won't start**
-```bash
-# Alternative local ChromaDB
-pip install chromadb
-python -m chromadb run --path /db_data
-```
-
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
