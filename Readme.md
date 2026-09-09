@@ -1,17 +1,16 @@
 # AI-Powered Onebox Aggregator
 
-A high-performance email intelligence engine designed to aggregate and process real-time IMAP streams with AI-driven categorization and hybrid search capabilities.
+An email intelligence engine that aggregates IMAP streams, categorizes messages with Gemini, and indexes them in Elasticsearch.
 
 ## 🚀 Overview
 
-The Onebox Aggregator is a sophisticated backend industrial engine that synchronizes multiple IMAP streams into a unified processing pipeline. It combines traditional full-text search with modern vector-based semantic search to provide an unparalleled email retrieval experience.
+The Onebox Aggregator synchronizes multiple IMAP streams into a unified processing pipeline. It uses Elasticsearch for full-text and structured search, plus in-memory similarity over predefined templates when generating suggested replies.
 
 ## 🛠 Tech Stack
 
 - **Runtime**: Node.js
 - **Search Engine**: Elasticsearch (Full-text & Structured Search)
-- **Vector Database**: ChromaDB (Semantic Vector Search)
-- **Intelligence**: Google Gemini AI (RAG, Thread Summarization, Auto-categorization)
+- **Intelligence**: Google Gemini AI (email categorization, RAG-powered reply suggestions)
 - **Email Protocol**: IMAP with IDLE support for real-time streaming
 - **Infrastructure**: Docker & Docker Compose
 
@@ -21,25 +20,21 @@ The Onebox Aggregator is a sophisticated backend industrial engine that synchron
 graph TD
     A[IMAP Servers] --> B[Node.js Backend]
     B --> C[Elasticsearch]
-    B --> D[ChromaDB]
     B --> E[Slack/Webhooks]
     C --> F[React Frontend]
-    D --> B
     E --> G[External Systems]
     F --> B
 ```
 
 ## ✨ Key Features
 
-- **Real-time Streaming**: Utilizes IMAP IDLE to listen for new incoming emails with sub-second latency.
-- **Hybrid Search Pipeline**:
+- **Real-time Streaming**: Utilizes IMAP IDLE to listen for new incoming emails.
+- **Search and reply context**:
   - **Elasticsearch**: Handles complex filtering, date ranges, and exact-match queries.
-  - **ChromaDB**: Powering semantic search to find emails based on meaning rather than just keywords.
+  - **In-memory templates**: Selects similar predefined response templates to provide reply context during the running process.
 - **AI-Driven Intelligence**:
-  - **RAG (Retrieval-Augmented Generation)**: Answers queries based on actual email context using Gemini Pro.
-  - **Automated Thread Recovery**: Intelligently groups fragmented messages into cohesive conversations.
-  - **Smart Replies**: Suggests contextually relevant responses based on thread history.
-- **Microservices Ready**: Architected for scalability with Dockerized components.
+  - **Email categorization**: Uses Gemini to classify incoming messages.
+  - **RAG-powered reply suggestions**: Retrieves the most similar templates from an in-memory embedding store (Gemini embeddings + cosine similarity) and uses them as context for Gemini to draft a reply.
 
 ## 📦 Getting Started
 
@@ -62,7 +57,6 @@ graph TD
    ```env
    GEMINI_API_KEY=your_key_here
    ELASTICSEARCH_URL=http://localhost:9200
-   CHROMADB_URL=http://localhost:8000
    ```
 
 3. Spin up the infrastructure:
@@ -76,7 +70,3 @@ graph TD
    npm install
    npm start
    ```
-
-## 🛡 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

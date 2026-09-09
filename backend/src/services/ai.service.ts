@@ -7,7 +7,7 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-// Interface for context templates stored in vector DB
+// Interface for in-memory context templates
 interface ContextTemplate {
   id: string;
   scenario: string;
@@ -203,7 +203,7 @@ export async function categorizeEmail(text: string): Promise<string> {
   }
 }
 
-// RAG-powered suggested reply generation
+// RAG-powered suggested reply generation (retrieval over in-memory templates, not ChromaDB)
 export async function generateSuggestedReply(
   email: Email, 
   userContext: UserContext = {}
@@ -217,7 +217,7 @@ export async function generateSuggestedReply(
     // Extract key information from email
     const emailContent = `${email.subject} ${email.text}`;
     
-    // Find similar context templates using RAG
+    // Find similar context templates
     const similarTemplates = await vectorStore.findSimilarTemplates(emailContent, 3);
     
     // Prepare context for LLM
