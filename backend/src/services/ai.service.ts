@@ -6,6 +6,7 @@ dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const embeddingModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
 
 // Interface for in-memory context templates
 interface ContextTemplate {
@@ -50,24 +51,14 @@ class SimpleVectorStore {
 
   private async generateEmbedding(text: string): Promise<number[]> {
     try {
-      // Using Gemini's text embedding (you might want to use a dedicated embedding model)
-      const result = await model.generateContent(
-        `Generate a numerical vector representation for: "${text}". Return only comma-separated numbers.`
-      );
-      const response = await result.response;
-      const embedding = response.text()
-        .split(',')
-        .map(n => parseFloat(n.trim()))
-        .filter(n => !isNaN(n));
-      
-      // Fallback: simple hash-based embedding if AI embedding fails
-      if (embedding.length === 0) {
-        return this.simpleHashEmbedding(text);
+      // Generate real 768-dimensional dense vector embeddings using Google Gemini API
+      const result = await embeddingModel.embedContent(text);
+      if (result.embedding && result.embedding.values) {
+        return result.embedding.values;
       }
-      
-      return embedding;
+      return this.simpleHashEmbedding(text);
     } catch (error) {
-      console.error('Error generating embedding:', error);
+      console.error('Error generating embedding via Gemini API, falling back to local hash:', error);
       return this.simpleHashEmbedding(text);
     }
   }
