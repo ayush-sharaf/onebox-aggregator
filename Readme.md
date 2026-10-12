@@ -70,3 +70,11 @@ graph TD
    npm install
    npm start
    ```
+
+## 🧪 Testing
+
+Run the automated Jest unit test suite covering vector normalization and mathematical cosine similarity:
+```bash
+cd backend
+npm test
+```
