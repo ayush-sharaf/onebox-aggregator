@@ -35,7 +35,7 @@ class IMAPService {
         host: account.host,
         port: account.port,
         tls: account.tls,
-        tlsOptions: { rejectUnauthorized: false },
+        tlsOptions: { rejectUnauthorized: true },
         // for persistent connections
         keepalive: true
       });
@@ -62,7 +62,10 @@ class IMAPService {
 
   private setupMailboxListeners(imap: Imap, email: string): void {
     imap.openBox('INBOX', true, (err: Error) => {
-      if (err) throw err;
+      if (err) {
+        console.error(`Error opening mailbox INBOX for ${email}:`, err);
+        return;
+      }
 
       // Fetch last 30 days of emails
       this.fetchHistoricalEmails(imap, email);
